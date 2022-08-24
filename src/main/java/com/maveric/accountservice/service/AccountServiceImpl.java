@@ -1,6 +1,7 @@
 package com.maveric.accountservice.service;
 
 import com.maveric.accountservice.dto.AccountDto;
+import com.maveric.accountservice.exception.AccountNotFoundException;
 import com.maveric.accountservice.mapper.AccountMapper;
 import com.maveric.accountservice.model.Account;
 import com.maveric.accountservice.repository.AccountRepository;
@@ -39,6 +40,12 @@ public class AccountServiceImpl implements AccountService{
         } else {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public AccountDto getAccountDetailsById(String customerId, String accountId) {
+        Account transactionResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        return mapper.map(transactionResult);
     }
 
     @Override
