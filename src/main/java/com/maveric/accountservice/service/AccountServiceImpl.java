@@ -27,7 +27,7 @@ public class AccountServiceImpl implements AccountService{
     private AccountMapper mapper;
 
     @Override
-    public List<AccountDto> getAccounts(String customerId,Integer page, Integer pageSize) {
+    public List<AccountDto> getAccounts(Integer page, Integer pageSize) {
         Pageable paging = (Pageable) PageRequest.of(page, pageSize);
         Page<Account> pageResult = repository.findAll(paging);
         if(pageResult.hasContent()) {
@@ -54,13 +54,13 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public AccountDto getAccountDetailsById(String customerId, String accountId) {
+    public AccountDto getAccountDetailsById(String accountId) {
         Account accountResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
         return mapper.map(accountResult);
     }
 
     @Override
-    public AccountDto updateAccountDetails(String customerId, String accountId, AccountDto accountDto) {
+    public AccountDto updateAccountDetails(String accountId, AccountDto accountDto) {
         Account accountResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
         accountResult.set_id(accountResult.get_id());
         accountResult.setCustomerId(accountDto.getCustomerId());
@@ -71,7 +71,11 @@ public class AccountServiceImpl implements AccountService{
         return mapper.map(accountUpdated);
     }
 
-
+    @Override
+    public String deleteAccount(String accountId) {
+        repository.deleteById(accountId);
+        return "Account deleted successfully.";
+    }
 
 
 }
