@@ -8,7 +8,8 @@ import java.util.List;
 public interface AccountService {
 
     public AccountDto createAccount(AccountDto transaction);
-    public List<AccountDto> getAccounts(String customerId, Integer page, Integer pageSize);
-    public AccountDto getAccountDetailsById(String customerId,String accountId);
-    public AccountDto updateAccountDetails(String customerId,String accountId,AccountDto accountDto);
+    public List<AccountDto> getAccounts(Integer page, Integer pageSize);
+    public AccountDto getAccountDetailsById(String accountId);
+    public AccountDto updateAccountDetails(String accountId,AccountDto accountDto);
+    public String deleteAccount(String accountId);
 }
