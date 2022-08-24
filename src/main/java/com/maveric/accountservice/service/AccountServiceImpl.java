@@ -43,21 +43,35 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public AccountDto getAccountDetailsById(String customerId, String accountId) {
-        Account transactionResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
-        return mapper.map(transactionResult);
-    }
-
-    @Override
     public AccountDto createAccount(AccountDto accountDto) {
         //Adding Time
         accountDto.setCreatedAt(getCurrentDateTime());
         accountDto.setUpdatedAt(getCurrentDateTime());
 
         Account account = mapper.map(accountDto);
-        Account transactionResult = repository.save(account);
-        return  mapper.map(transactionResult);
+        Account accountResult = repository.save(account);
+        return  mapper.map(accountResult);
     }
+
+    @Override
+    public AccountDto getAccountDetailsById(String customerId, String accountId) {
+        Account accountResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        return mapper.map(accountResult);
+    }
+
+    @Override
+    public AccountDto updateAccountDetails(String customerId, String accountId, AccountDto accountDto) {
+        Account accountResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        accountResult.set_id(accountResult.get_id());
+        accountResult.setCustomerId(accountDto.getCustomerId());
+        accountResult.setType(accountDto.getType());
+        accountResult.setCreatedAt(accountResult.getCreatedAt());
+        accountResult.setUpdatedAt(getCurrentDateTime());
+        Account accountUpdated = repository.save(accountResult);
+        return mapper.map(accountUpdated);
+    }
+
+
 
 
 }
