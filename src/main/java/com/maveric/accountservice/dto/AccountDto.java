@@ -5,7 +5,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +15,6 @@ public class AccountDto {
         private String _id;
         private String customerId;
         private Type type;
-        private String createdAt;
-        private String updatedAt;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
 }

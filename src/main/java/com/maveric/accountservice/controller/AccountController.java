@@ -20,30 +20,30 @@ public class AccountController {
     public ResponseEntity<List<AccountDto>> getAccounts(@PathVariable String customerId,@RequestParam(defaultValue = "0") Integer page,
                                                         @RequestParam(defaultValue = "10") Integer pageSize) {
         List<AccountDto> accountDtoResponse = accountService.getAccounts(page,pageSize);
-        return new ResponseEntity<List<AccountDto>>(accountDtoResponse, HttpStatus.OK);
+        return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
     }
 
     @PostMapping("customer/{customerId}/accounts")
     public ResponseEntity<AccountDto> createAccount(@PathVariable String customerId, @RequestBody AccountDto accountDto) {
         AccountDto accountDtoResponse = accountService.createAccount(accountDto);
-        return new ResponseEntity<AccountDto>(accountDtoResponse, HttpStatus.OK);
+        return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
     }
 
     @GetMapping("customer/{customerId}/accounts/{accountId}")
     public ResponseEntity<AccountDto> getAccountDetails(@PathVariable String customerId,@PathVariable String accountId) {
         AccountDto accountDtoResponse = accountService.getAccountDetailsById(accountId);
-        return new ResponseEntity<AccountDto>(accountDtoResponse, HttpStatus.OK);
+        return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
     }
 
     @PutMapping("customer/{customerId}/accounts/{accountId}")
     public ResponseEntity<AccountDto> updateAccount(@PathVariable String customerId,@PathVariable String accountId,@RequestBody AccountDto accountDto) {
         AccountDto accountDtoResponse = accountService.updateAccountDetails(accountId,accountDto);
-        return new ResponseEntity<AccountDto>(accountDtoResponse, HttpStatus.OK);
+        return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("customer/{customerId}/accounts/{accountId}")
     public ResponseEntity<String> deleteAccount(@PathVariable String customerId,@PathVariable String accountId) {
         String result = accountService.deleteAccount(accountId);
-        return new ResponseEntity<String>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

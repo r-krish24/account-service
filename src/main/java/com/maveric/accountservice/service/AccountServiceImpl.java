@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.maveric.accountservice.constants.Constants.getCurrentDateTime;
 
@@ -28,15 +27,11 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public List<AccountDto> getAccounts(Integer page, Integer pageSize) {
-        Pageable paging = (Pageable) PageRequest.of(page, pageSize);
+        Pageable paging = PageRequest.of(page, pageSize);
         Page<Account> pageResult = repository.findAll(paging);
         if(pageResult.hasContent()) {
-            return pageResult.getContent().stream()
-                    .map(
-                            account -> mapper.map(account)
-                    ).collect(
-                            Collectors.toList()
-                    );
+            List<Account> account = pageResult.getContent();
+            return mapper.mapToDto(account);
         } else {
             return new ArrayList<>();
         }

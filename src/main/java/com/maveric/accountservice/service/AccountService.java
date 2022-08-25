@@ -1,7 +1,6 @@
 package com.maveric.accountservice.service;
 
 import com.maveric.accountservice.dto.AccountDto;
-import com.maveric.accountservice.model.Account;
 
 import java.util.List;
 

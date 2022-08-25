@@ -32,11 +32,21 @@ public class AccountMapperImpl implements AccountMapper{
     }
 
     @Override
-    public List<Account> map(List<AccountDto> dtoAccounts) {
+    public List<Account> mapToModel(List<AccountDto> dtoAccounts) {
 
-        List<Account> list = new ArrayList<Account>(dtoAccounts.size());
+        List<Account> list = new ArrayList<>(dtoAccounts.size());
         for (AccountDto accountDto : dtoAccounts) {
             list.add(map(accountDto));
+        }
+        return list;
+    }
+
+    @Override
+    public List<AccountDto> mapToDto(List<Account> accounts) {
+
+        List<AccountDto> list = new ArrayList<>(accounts.size());
+        for (Account account : accounts) {
+            list.add(map(account));
         }
         return list;
     }

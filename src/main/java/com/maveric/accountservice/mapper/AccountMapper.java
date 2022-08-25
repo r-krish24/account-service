@@ -12,5 +12,7 @@ public interface AccountMapper {
 
     AccountDto map(Account account);
 
-    List<Account> map (List<AccountDto> accounts);
+    List<Account> mapToModel (List<AccountDto> accounts);
+
+    List<AccountDto> mapToDto (List<Account> accounts);
 }
