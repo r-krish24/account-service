@@ -26,7 +26,7 @@ public class AccountController {
     @PostMapping("customer/{customerId}/accounts")
     public ResponseEntity<AccountDto> createAccount(@PathVariable String customerId, @RequestBody AccountDto accountDto) {
         AccountDto accountDtoResponse = accountService.createAccount(accountDto);
-        return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
+        return new ResponseEntity<>(accountDtoResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("customer/{customerId}/accounts/{accountId}")
