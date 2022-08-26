@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class AccountMapperImpl implements AccountMapper{
@@ -32,22 +33,24 @@ public class AccountMapperImpl implements AccountMapper{
     }
 
     @Override
-    public List<Account> mapToModel(List<AccountDto> dtoAccounts) {
-
-        List<Account> list = new ArrayList<>(dtoAccounts.size());
-        for (AccountDto accountDto : dtoAccounts) {
-            list.add(map(accountDto));
-        }
-        return list;
+    public List<Account> mapToModel(List<AccountDto> accountsDto) {
+        return accountsDto.stream().map(accountDto -> new Account(
+                accountDto.get_id(),
+                accountDto.getCustomerId(),
+                accountDto.getType(),
+                accountDto.getCreatedAt(),
+                accountDto.getUpdatedAt()
+        )).collect(Collectors.toList());
     }
 
     @Override
     public List<AccountDto> mapToDto(List<Account> accounts) {
-
-        List<AccountDto> list = new ArrayList<>(accounts.size());
-        for (Account account : accounts) {
-            list.add(map(account));
-        }
-        return list;
+        return accounts.stream().map(account -> new AccountDto(
+                account.get_id(),
+                account.getCustomerId(),
+                account.getType(),
+                account.getCreatedAt(),
+                account.getUpdatedAt()
+        )).collect(Collectors.toList());
     }
 }

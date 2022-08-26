@@ -1,14 +1,12 @@
 package com.maveric.accountservice.dto;
 
 import com.maveric.accountservice.constants.Type;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class AccountDto {
