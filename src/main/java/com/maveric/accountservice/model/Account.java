@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Document(collection = "Account")

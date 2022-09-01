@@ -3,54 +3,53 @@ package com.maveric.accountservice.mapper;
 import com.maveric.accountservice.dto.AccountDto;
 import com.maveric.accountservice.model.Account;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class AccountMapperImpl implements AccountMapper{
     @Override
     public Account map(AccountDto accountDto) {
-        return new Account(
-                accountDto.get_id(),
-                accountDto.getCustomerId(),
-                accountDto.getType(),
-                accountDto.getCreatedAt(),
-                accountDto.getUpdatedAt()
-                );
+        return Account.builder()
+                ._id(accountDto.get_id())
+                .customerId(accountDto.getCustomerId())
+                .type(accountDto.getType())
+                .createdAt(accountDto.getCreatedAt())
+                .updatedAt(accountDto.getUpdatedAt())
+                .build();
     }
 
     @Override
     public AccountDto map(Account account) {
-        return new AccountDto(
-                account.get_id(),
-                account.getCustomerId(),
-                account.getType(),
-                account.getCreatedAt(),
-                account.getUpdatedAt()
-        );
+        return AccountDto.builder()
+                ._id(account.get_id())
+                .customerId(account.getCustomerId())
+                .type(account.getType())
+                .createdAt(account.getCreatedAt())
+                .updatedAt(account.getUpdatedAt())
+                .build();
     }
 
     @Override
     public List<Account> mapToModel(List<AccountDto> accountsDto) {
-        return accountsDto.stream().map(accountDto -> new Account(
-                accountDto.get_id(),
-                accountDto.getCustomerId(),
-                accountDto.getType(),
-                accountDto.getCreatedAt(),
-                accountDto.getUpdatedAt()
-        )).collect(Collectors.toList());
+        return accountsDto.stream().map(accountDto ->  Account.builder()
+                ._id(accountDto.get_id())
+                .customerId(accountDto.getCustomerId())
+                .type(accountDto.getType())
+                .createdAt(accountDto.getCreatedAt())
+                .updatedAt(accountDto.getUpdatedAt())
+                .build()
+        ).toList();
     }
 
     @Override
     public List<AccountDto> mapToDto(List<Account> accounts) {
-        return accounts.stream().map(account -> new AccountDto(
-                account.get_id(),
-                account.getCustomerId(),
-                account.getType(),
-                account.getCreatedAt(),
-                account.getUpdatedAt()
-        )).collect(Collectors.toList());
+        return accounts.stream().map(account ->  AccountDto.builder()
+                        ._id(account.get_id())
+                        .customerId(account.getCustomerId())
+                        .type(account.getType())
+                        .createdAt(account.getCreatedAt())
+                        .updatedAt(account.getUpdatedAt())
+                        .build()
+                ).toList();
     }
 }

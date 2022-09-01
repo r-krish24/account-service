@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.maveric.accountservice.constants.Constants.getCurrentDateTime;
+import static com.maveric.accountservice.constants.Constants.*;
 
 @Service
 public class AccountServiceImpl implements AccountService{
@@ -50,13 +50,13 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public AccountDto getAccountDetailsById(String accountId) {
-        Account accountResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        Account accountResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE+accountId));
         return mapper.map(accountResult);
     }
 
     @Override
     public AccountDto updateAccountDetails(String accountId, AccountDto accountDto) {
-        Account accountResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException("Account not found"));
+        Account accountResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE+accountId));
         accountResult.set_id(accountResult.get_id());
         accountResult.setCustomerId(accountDto.getCustomerId());
         accountResult.setType(accountDto.getType());
@@ -68,8 +68,12 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public String deleteAccount(String accountId) {
+        if(!repository.findById(accountId).isPresent())
+        {
+            throw new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE+accountId);
+        }
         repository.deleteById(accountId);
-        return "Account deleted successfully.";
+        return ACCOUNT_DELETED_SUCCESS;
     }
 
 
