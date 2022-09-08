@@ -1,5 +1,5 @@
 package com.maveric.accountservice.constants;
 
-public enum Type {
+public enum AccountType {
     SAVINGS,CURRENT;
 }

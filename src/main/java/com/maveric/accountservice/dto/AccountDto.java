@@ -1,9 +1,10 @@
 package com.maveric.accountservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.maveric.accountservice.constants.Type;
+import com.maveric.accountservice.constants.AccountType;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,10 +16,10 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class AccountDto {
         private String _id;
-        @NotNull(message = "Customer Id is mandatory")
+        @NotBlank(message = "Customer Id is mandatory")
         private String customerId;
         @NotNull(message = "Type is mandatory - 'SAVINGS' or 'CURRENT'")
-        private Type type;
+        private AccountType type;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         @JsonInclude(JsonInclude.Include.NON_NULL)

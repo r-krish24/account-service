@@ -13,6 +13,6 @@ import java.util.List;
 @Service
 public interface TransactionServiceConsumer {
 
-    @GetMapping("accounts/{accountId}/transaction")
+    @GetMapping("api/v1/accounts/{accountId}/transactions")
     public ResponseEntity<List<TransactionDto>> getTransactionsByAccountId(@PathVariable String accountId);
 }

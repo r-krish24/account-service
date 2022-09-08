@@ -2,7 +2,7 @@ package com.maveric.accountservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maveric.accountservice.constants.TransactionType;
-import com.maveric.accountservice.constants.Type;
+import com.maveric.accountservice.constants.AccountType;
 import com.maveric.accountservice.dto.AccountDto;
 import com.maveric.accountservice.dto.BalanceDto;
 import com.maveric.accountservice.dto.TransactionDto;
@@ -32,14 +32,14 @@ public class AccountServiceApplicationTests {
 	{
 		return  Account.builder()
 				.customerId("1234")
-				.type(Type.SAVINGS)
+				.accountType(AccountType.SAVINGS)
 				.build();
 	}
 	public static AccountDto getAccountDto()
 	{
 		return  AccountDto.builder()
 				.customerId("1234")
-				.type(Type.SAVINGS)
+				.accountType(AccountType.SAVINGS)
 				.build();
 	}
 

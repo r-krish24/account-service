@@ -17,6 +17,10 @@ public class Constants {
     public static final String BAD_REQUEST_MESSAGE="Invalid inputs!";
     public static final String INCORRECT_URL_CODE="404";
     public static final String INCORRECT_URL_MESSAGE="The server can not find the requested resource.";
+
+    public static final String INVALID_INPUT_TYPE="Type should be - 'CURRENT' or 'SAVINGS'";
+
+    public static final String HttpMessageNotReadableException_MESSAGE = "Kindly re-check the inputs provided";
     public static LocalDateTime getCurrentDateTime() {
         return (java.time.LocalDateTime.now());
     }

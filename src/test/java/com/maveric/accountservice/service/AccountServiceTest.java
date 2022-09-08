@@ -1,6 +1,6 @@
 package com.maveric.accountservice.service;
 
-import com.maveric.accountservice.constants.Type;
+import com.maveric.accountservice.constants.AccountType;
 import com.maveric.accountservice.dto.AccountDto;
 import com.maveric.accountservice.mapper.AccountMapperImpl;
 import com.maveric.accountservice.model.Account;
@@ -67,7 +67,7 @@ public class AccountServiceTest {
         List<AccountDto> transactions = service.getAccounts(1,1);
 
         assertEquals("1234", transactions.get(0).getCustomerId());
-        assertEquals(Type.SAVINGS, transactions.get(1).getType());
+        assertEquals(AccountType.SAVINGS, transactions.get(1).getAccountType());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class AccountServiceTest {
 
         AccountDto transactionDto = service.getAccountDetailsById("123");
 
-        assertSame(transactionDto.getType(),getAccountDto().getType());
+        assertSame(transactionDto.getAccountType(),getAccountDto().getAccountType());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class AccountServiceTest {
 
         AccountDto accountDto = service.updateAccountDetails("123",getAccountDto());
 
-        assertSame(accountDto.getType(),getAccountDto().getType());
+        assertSame(accountDto.getAccountType(),getAccountDto().getAccountType());
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.maveric.accountservice.service;
 
 import com.maveric.accountservice.dto.AccountDto;
 import com.maveric.accountservice.exception.AccountNotFoundException;
+import com.maveric.accountservice.exception.PathParamsVsInputParamsMismatchException;
 import com.maveric.accountservice.mapper.AccountMapper;
 import com.maveric.accountservice.model.Account;
 import com.maveric.accountservice.repository.AccountRepository;
@@ -38,14 +39,31 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public AccountDto createAccount(AccountDto accountDto) {
-        //Adding Time
-        accountDto.setCreatedAt(getCurrentDateTime());
-        accountDto.setUpdatedAt(getCurrentDateTime());
+    public List<AccountDto> getAccountByUserId(Integer page, Integer pageSize, String userId) {
+        Pageable paging = PageRequest.of(page, pageSize);
+        Page<Account> pageResult = repository.findByCustomerId(paging,userId);
+        if(pageResult.hasContent()) {
+            List<Account> account = pageResult.getContent();
+            return mapper.mapToDto(account);
+        } else {
+            return new ArrayList<>();
+        }
+    }
 
-        Account account = mapper.map(accountDto);
-        Account accountResult = repository.save(account);
-        return  mapper.map(accountResult);
+    @Override
+    public AccountDto createAccount(String customerId,AccountDto accountDto) {
+        if(customerId.equalsIgnoreCase(accountDto.getCustomerId())) {
+            //Adding Time
+            accountDto.setCreatedAt(getCurrentDateTime());
+            accountDto.setUpdatedAt(getCurrentDateTime());
+
+            Account account = mapper.map(accountDto);
+            Account accountResult = repository.save(account);
+            return mapper.map(accountResult);
+        }
+        else {
+            throw new PathParamsVsInputParamsMismatchException("Customer Id not found! Cannot create account.");
+        }
     }
 
     @Override
@@ -55,15 +73,20 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public AccountDto updateAccountDetails(String accountId, AccountDto accountDto) {
-        Account accountResult=repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE+accountId));
-        accountResult.set_id(accountResult.get_id());
-        accountResult.setCustomerId(accountDto.getCustomerId());
-        accountResult.setType(accountDto.getType());
-        accountResult.setCreatedAt(accountResult.getCreatedAt());
-        accountResult.setUpdatedAt(getCurrentDateTime());
-        Account accountUpdated = repository.save(accountResult);
-        return mapper.map(accountUpdated);
+    public AccountDto updateAccountDetails(String customerId,String accountId, AccountDto accountDto) {
+        if(customerId.equalsIgnoreCase(accountDto.getCustomerId())) {
+            Account accountResult = repository.findById(accountId).orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE + accountId));
+            accountResult.set_id(accountResult.get_id());
+            accountResult.setCustomerId(accountDto.getCustomerId());
+            accountResult.setType(accountDto.getType());
+            accountResult.setCreatedAt(accountResult.getCreatedAt());
+            accountResult.setUpdatedAt(getCurrentDateTime());
+            Account accountUpdated = repository.save(accountResult);
+            return mapper.map(accountUpdated);
+        }
+        else {
+            throw new PathParamsVsInputParamsMismatchException("Customer Id not found! Cannot update account.");
+        }
     }
 
     @Override

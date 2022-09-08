@@ -1,6 +1,6 @@
 package com.maveric.accountservice.model;
 
-import com.maveric.accountservice.constants.Type;
+import com.maveric.accountservice.constants.AccountType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,7 +18,7 @@ public class Account {
     @Id
     private String _id;
     private String customerId;
-    private Type type;
+    private AccountType type;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
