@@ -62,7 +62,7 @@ public class AccountServiceImpl implements AccountService{
             return mapper.map(accountResult);
         }
         else {
-            throw new PathParamsVsInputParamsMismatchException("Customer Id not found! Cannot create account.");
+            throw new PathParamsVsInputParamsMismatchException("Customer Id-"+accountDto.getCustomerId()+" not found. Cannot create account.");
         }
     }
 

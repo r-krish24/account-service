@@ -25,7 +25,14 @@ public class ExceptionControllerAdvisor {
         return errorDto;
     }
 
-
+    @ExceptionHandler(CustomerNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public final ErrorDto handleCustomerNotFoundException(CustomerNotFoundException exception) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setCode(ACCOUNT_NOT_FOUND_CODE);
+        errorDto.setMessage(exception.getMessage());
+        return errorDto;
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDto handleValidationExceptions(

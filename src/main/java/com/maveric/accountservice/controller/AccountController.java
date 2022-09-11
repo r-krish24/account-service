@@ -3,10 +3,13 @@ package com.maveric.accountservice.controller;
 import com.maveric.accountservice.dto.AccountDto;
 import com.maveric.accountservice.dto.BalanceDto;
 import com.maveric.accountservice.dto.TransactionDto;
+import com.maveric.accountservice.dto.UserDto;
 import com.maveric.accountservice.exception.AccountNotFoundException;
+import com.maveric.accountservice.exception.CustomerNotFoundException;
 import com.maveric.accountservice.exception.PathParamsVsInputParamsMismatchException;
 import com.maveric.accountservice.feignconsumer.BalanceServiceConsumer;
 import com.maveric.accountservice.feignconsumer.TransactionServiceConsumer;
+import com.maveric.accountservice.feignconsumer.UserServiceConsumer;
 import com.maveric.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +33,9 @@ public class AccountController {
     @Autowired
     TransactionServiceConsumer transactionServiceConsumer;
 
+    @Autowired
+    UserServiceConsumer userServiceConsumer;
+
     @GetMapping("customers/{customerId}/account")
     public ResponseEntity<List<AccountDto>> getAccounts(@PathVariable String customerId,@RequestParam(defaultValue = "0") Integer page,
                                                         @RequestParam(defaultValue = "10") Integer pageSize) {
@@ -46,8 +52,22 @@ public class AccountController {
 
     @PostMapping("customers/{customerId}/accounts")
     public ResponseEntity<AccountDto> createAccount(@PathVariable String customerId, @Valid @RequestBody AccountDto accountDto) {
-            AccountDto accountDtoResponse = accountService.createAccount(customerId,accountDto);
+        UserDto userDto = null;
+        try {
+            ResponseEntity<UserDto> responseEntityUserDto = userServiceConsumer.getUserDetails(accountDto.getCustomerId());
+             userDto = responseEntityUserDto.getBody();
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Exception has occurred at User Service ->"+ex.getMessage());
+        }
+        if(userDto!=null) {
+            AccountDto accountDtoResponse = accountService.createAccount(customerId, accountDto);
             return new ResponseEntity<>(accountDtoResponse, HttpStatus.CREATED);
+        }
+        else {
+            throw new CustomerNotFoundException("Customer Id-"+accountDto.getCustomerId()+" not found. Cannot create account.");
+        }
     }
 
     @GetMapping("customers/{customerId}/accounts/{accountId}")
@@ -72,7 +92,7 @@ public class AccountController {
         catch(Exception ex)
         {
             accountDtoResponse.setTransactions(new ArrayList<>());
-            System.out.println("Exception has occured at Transaction Service ->"+ex.getMessage());
+            System.out.println("Exception has occurred at Transaction Service ->"+ex.getMessage());
         }
 
         return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
@@ -87,6 +107,11 @@ public class AccountController {
     @DeleteMapping("customers/{customerId}/accounts/{accountId}")
     public ResponseEntity<String> deleteAccount(@PathVariable String customerId,@PathVariable String accountId) {
         String result = accountService.deleteAccount(accountId);
+        if(result!=null)
+        {
+            balanceServiceConsumer.deleteBalanceByAccountId(accountId);
+            transactionServiceConsumer.deleteTransactionByAccountId(accountId);
+        }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
