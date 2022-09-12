@@ -6,6 +6,7 @@ import com.maveric.accountservice.constants.AccountType;
 import com.maveric.accountservice.dto.AccountDto;
 import com.maveric.accountservice.dto.BalanceDto;
 import com.maveric.accountservice.dto.TransactionDto;
+import com.maveric.accountservice.dto.UserDto;
 import com.maveric.accountservice.model.Account;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,14 +33,14 @@ public class AccountServiceApplicationTests {
 	{
 		return  Account.builder()
 				.customerId("1234")
-				.accountType(AccountType.SAVINGS)
+				.type(AccountType.SAVINGS)
 				.build();
 	}
 	public static AccountDto getAccountDto()
 	{
 		return  AccountDto.builder()
 				.customerId("1234")
-				.accountType(AccountType.SAVINGS)
+				.type(AccountType.SAVINGS)
 				.build();
 	}
 
@@ -58,6 +59,14 @@ public class AccountServiceApplicationTests {
 				.accountId("1234")
 				.amount(1000)
 				.currency("INR")
+				.build();
+	}
+
+	public static UserDto getUserDto()
+	{
+		return UserDto.builder()
+				.email("ram@gmail.com")
+				._id("1234")
 				.build();
 	}
 

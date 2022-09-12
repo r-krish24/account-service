@@ -2,8 +2,10 @@ package com.maveric.accountservice.controller;
 
 import com.maveric.accountservice.dto.BalanceDto;
 import com.maveric.accountservice.dto.TransactionDto;
+import com.maveric.accountservice.dto.UserDto;
 import com.maveric.accountservice.feignconsumer.BalanceServiceConsumer;
 import com.maveric.accountservice.feignconsumer.TransactionServiceConsumer;
+import com.maveric.accountservice.feignconsumer.UserServiceConsumer;
 import com.maveric.accountservice.service.AccountService;
 import com.maveric.accountservice.service.AccountServiceImpl;
 import org.junit.Test;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
@@ -51,8 +54,12 @@ public class AccountControllerTest {
     @MockBean
     TransactionServiceConsumer transactionServiceConsumer;
 
+    @MockBean
+    UserServiceConsumer userServiceConsumer;
+
     @Mock
     ResponseEntity<BalanceDto> balanceDto;
+
 
     @Mock
     ResponseEntity<List<TransactionDto>> transactionDto;
@@ -70,6 +77,8 @@ public class AccountControllerTest {
     @Test
     public void shouldGetStatus201WhenRequestMadeToCreateAccounts() throws Exception
     {
+        ResponseEntity<UserDto> responseEntity = new ResponseEntity<>(getUserDto(), HttpStatus.OK);
+        when(userServiceConsumer.getUserDetails(any(String.class))).thenReturn(responseEntity);
         mock.perform(post(apiV1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(getAccountDto()))
@@ -82,7 +91,7 @@ public class AccountControllerTest {
     public void shouldGetStatus200WhenRequestMadeToGetAccountDetails() throws Exception
     {
         when(accountService.getAccountDetailsById(any(String.class))).thenReturn(getAccountDto());
-        when(balanceServiceConsumer.getBalance(any(String.class))).thenReturn(balanceDto);
+        when(balanceServiceConsumer.getBalances(any(String.class))).thenReturn(balanceDto);
         when(balanceDto.getBody()).thenReturn(getBalanceDto());
         when(transactionServiceConsumer.getTransactionsByAccountId(any(String.class))).thenReturn(transactionDto);
         when(transactionDto.getBody()).thenReturn(Arrays.asList(getTransactionDto(),getTransactionDto()));
