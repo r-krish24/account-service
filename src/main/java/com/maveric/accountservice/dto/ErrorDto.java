@@ -1,9 +1,7 @@
 package com.maveric.accountservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import java.util.Map;
 
 @Getter
 @Setter

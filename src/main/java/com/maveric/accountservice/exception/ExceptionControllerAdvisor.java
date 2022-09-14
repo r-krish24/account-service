@@ -60,10 +60,10 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(BAD_REQUEST_CODE);
         System.out.println(ex.getMessage());
-        if(ex.getMessage().contains("com.maveric.accountservice.constants.Type"))
+        if(ex.getMessage().contains("com.maveric.accountservice.constants.Type")) //NOSONAR
             errorDto.setMessage(INVALID_INPUT_TYPE);
         else
-            errorDto.setMessage(HttpMessageNotReadableException_MESSAGE);
+            errorDto.setMessage(HTTP_MESSAGE_NOT_READABLE_EXCEPTION_MESSAGE);
         return errorDto;
     }
 

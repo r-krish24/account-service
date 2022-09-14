@@ -20,7 +20,7 @@ public class Constants {
 
     public static final String INVALID_INPUT_TYPE="Type should be - 'CURRENT' or 'SAVINGS'";
 
-    public static final String HttpMessageNotReadableException_MESSAGE = "Kindly re-check the inputs provided";
+    public static final String HTTP_MESSAGE_NOT_READABLE_EXCEPTION_MESSAGE = "Kindly re-check the inputs provided";
     public static LocalDateTime getCurrentDateTime() {
         return (java.time.LocalDateTime.now());
     }

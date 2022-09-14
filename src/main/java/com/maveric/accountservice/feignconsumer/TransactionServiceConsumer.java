@@ -2,7 +2,6 @@ package com.maveric.accountservice.feignconsumer;
 
 import com.maveric.accountservice.dto.TransactionDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
