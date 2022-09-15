@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
 public class AccountDto {
         private String _id;
         @NotBlank(message = "Customer Id is mandatory")

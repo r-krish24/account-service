@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
 @Document(collection = "Account")
 public class Account {
 

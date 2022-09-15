@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
     private String _id;

@@ -32,31 +32,34 @@ public class AccountController {
 
     @Autowired
     UserServiceConsumer userServiceConsumer;
-    @CrossOrigin(origins = "http://localhost:8080")
+
+    /* Returns list of all accounts */
     @GetMapping("customers/{customerId}/account")
     public ResponseEntity<List<AccountDto>> getAccounts(@PathVariable String customerId,@RequestParam(defaultValue = "0") Integer page,
                                                         @RequestParam(defaultValue = "10") Integer pageSize) {
         List<AccountDto> accountDtoResponse = accountService.getAccounts(page,pageSize);
         return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
     }
-    @CrossOrigin(origins = "http://localhost:8080")
+
+    /* Returns list of all valid accounts belonging a particular Customer Id */
     @GetMapping("customers/{customerId}/accounts")
     public ResponseEntity<List<AccountDto>> getAccountByCustomerId(@PathVariable String customerId,@RequestParam(defaultValue = "0") Integer page,
-                                                        @RequestParam(defaultValue = "5") Integer pageSize) {
+                                                                   @RequestParam(defaultValue = "5") Integer pageSize) {
         List<AccountDto> accountDtoResponse = accountService.getAccountByUserId(page,pageSize,customerId);
         return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
     }
-    @CrossOrigin(origins = "http://localhost:8080")
+
+    /* Creates a valid account */
     @PostMapping("customers/{customerId}/accounts")
     public ResponseEntity<AccountDto> createAccount(@PathVariable String customerId, @Valid @RequestBody AccountDto accountDto) {
         UserDto userDto = null;
         try {
             ResponseEntity<UserDto> responseEntityUserDto = userServiceConsumer.getUserDetails(accountDto.getCustomerId());
-             userDto = responseEntityUserDto.getBody();
+            userDto = responseEntityUserDto.getBody();
         }
         catch(Exception ex)
         {
-            System.out.println("Exception has occurred at User Service ->"+ex.getMessage());
+            ex.printStackTrace();
         }
         if(userDto!=null) {
             AccountDto accountDtoResponse = accountService.createAccount(customerId, accountDto);
@@ -66,19 +69,19 @@ public class AccountController {
             throw new CustomerNotFoundException("Customer Id-"+accountDto.getCustomerId()+" not found. Cannot create account.");
         }
     }
-    @CrossOrigin(origins = "http://localhost:8080")
+
+    /* Returns Account details along with Balance and Transaction details based on valid Account Id */
     @GetMapping("customers/{customerId}/accounts/{accountId}")
     public ResponseEntity<AccountDto> getAccountDetails(@PathVariable String customerId,@PathVariable String accountId) {
         AccountDto accountDtoResponse = accountService.getAccountDetailsById(accountId);
 
         try {
-                ResponseEntity<BalanceDto> balanceDto = balanceServiceConsumer.getBalances(accountId);
-                accountDtoResponse.setBalance(balanceDto.getBody());
+            ResponseEntity<BalanceDto> balanceDto = balanceServiceConsumer.getBalances(accountId);
+            accountDtoResponse.setBalance(balanceDto.getBody());
         }
         catch(Exception ex)
         {
             accountDtoResponse.setBalance(new BalanceDto());
-            System.out.println("Exception has occured at Balance Service ->"+ex.getMessage());
         }
 
 
@@ -89,18 +92,19 @@ public class AccountController {
         catch(Exception ex)
         {
             accountDtoResponse.setTransactions(new ArrayList<>());
-            System.out.println("Exception has occurred at Transaction Service ->"+ex.getMessage());
         }
 
         return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
     }
-    @CrossOrigin(origins = "http://localhost:8080")
+
+    /* Updates account details based on valid Account Id */
     @PutMapping("customers/{customerId}/accounts/{accountId}")
     public ResponseEntity<AccountDto> updateAccount(@PathVariable String customerId,@PathVariable String accountId,@RequestBody AccountDto accountDto) {
-                AccountDto accountDtoResponse = accountService.updateAccountDetails(customerId,accountId,accountDto);
-                return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
+        AccountDto accountDtoResponse = accountService.updateAccountDetails(customerId,accountId,accountDto);
+        return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
     }
-    @CrossOrigin(origins = "http://localhost:8080")
+
+    /* Deletes account along with its corresponding balance and transaction details based on valid Account Id */
     @DeleteMapping("customers/{customerId}/accounts/{accountId}")
     public ResponseEntity<String> deleteAccount(@PathVariable String customerId,@PathVariable String accountId) {
         String result = accountService.deleteAccount(accountId);

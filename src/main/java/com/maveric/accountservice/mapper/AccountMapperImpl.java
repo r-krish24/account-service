@@ -44,12 +44,12 @@ public class AccountMapperImpl implements AccountMapper{
     @Override
     public List<AccountDto> mapToDto(List<Account> accounts) {
         return accounts.stream().map(account ->  AccountDto.builder()
-                        ._id(account.get_id())
-                        .customerId(account.getCustomerId())
-                        .type(account.getType())
-                        .createdAt(account.getCreatedAt())
-                        .updatedAt(account.getUpdatedAt())
-                        .build()
-                ).toList();
+                ._id(account.get_id())
+                .customerId(account.getCustomerId())
+                .type(account.getType())
+                .createdAt(account.getCreatedAt())
+                .updatedAt(account.getUpdatedAt())
+                .build()
+        ).toList();
     }
 }

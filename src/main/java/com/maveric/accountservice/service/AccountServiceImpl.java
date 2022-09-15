@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.maveric.accountservice.constants.Constants.*;
+import static com.maveric.accountservice.util.Common.getCurrentDateTime;
 
 @Service
 public class AccountServiceImpl implements AccountService{
