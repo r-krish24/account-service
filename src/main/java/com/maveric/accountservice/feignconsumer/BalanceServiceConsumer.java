@@ -17,7 +17,7 @@ public interface BalanceServiceConsumer {
     @GetMapping("api/v1/accounts/{accountId}/balances")
     public ResponseEntity <BalanceDto> getBalances(@PathVariable String accountId);
 
-    @DeleteMapping("accounts/{accountId}/balances")
+    @DeleteMapping("api/v1/accounts/{accountId}/balances")
     public ResponseEntity<String> deleteBalanceByAccountId(@PathVariable String accountId);
 
 }
