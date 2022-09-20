@@ -8,6 +8,7 @@ import com.maveric.accountservice.feignconsumer.TransactionServiceConsumer;
 import com.maveric.accountservice.feignconsumer.UserServiceConsumer;
 import com.maveric.accountservice.service.AccountService;
 import com.maveric.accountservice.service.AccountServiceImpl;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.Tag;
 import org.junit.runner.RunWith;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -64,12 +66,13 @@ public class AccountControllerTest {
     @Mock
     ResponseEntity<List<TransactionDto>> transactionDto;
 
-
     @Test
     public void shouldGetStatus200WhenRequestMadeTogetAccounts() throws Exception
     {
+        ResponseEntity<UserDto> responseEntity = new ResponseEntity<>(getUserDto(), HttpStatus.OK);
+        when(userServiceConsumer.getUserDetails(any(String.class))).thenReturn(responseEntity);
         mock.perform(get(apiV1)
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON).header("userEmail", "ram@gmail.com"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -82,6 +85,7 @@ public class AccountControllerTest {
         mock.perform(post(apiV1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(getAccountDto()))
+                        .header("userEmail", "ram@gmail.com")
                 )
                 .andExpect(status().isCreated())
                 .andDo(print());
@@ -90,13 +94,15 @@ public class AccountControllerTest {
     @Test
     public void shouldGetStatus200WhenRequestMadeToGetAccountDetails() throws Exception
     {
+        ResponseEntity<UserDto> responseEntity = new ResponseEntity<>(getUserDto(), HttpStatus.OK);
+        when(userServiceConsumer.getUserDetails(any(String.class))).thenReturn(responseEntity);
         when(accountService.getAccountDetailsById(any(String.class))).thenReturn(getAccountDto());
         when(balanceServiceConsumer.getBalances(any(String.class))).thenReturn(balanceDto);
         when(balanceDto.getBody()).thenReturn(getBalanceDto());
         when(transactionServiceConsumer.getTransactionsByAccountId(any(String.class))).thenReturn(transactionDto);
         when(transactionDto.getBody()).thenReturn(Arrays.asList(getTransactionDto(),getTransactionDto()));
 
-        mock.perform(get(apiV1+"/accountId1"))
+        mock.perform(get(apiV1+"/accountId1").header("userEmail", "ram@gmail.com"))
                 .andExpect(status().isOk())
                 .andReturn();
     }
@@ -104,9 +110,12 @@ public class AccountControllerTest {
     @Test
     public void shouldGetStatus200WhenRequestMadeToUpdateAccount() throws Exception
     {
+        ResponseEntity<UserDto> responseEntity = new ResponseEntity<>(getUserDto(), HttpStatus.OK);
+        when(userServiceConsumer.getUserDetails(any(String.class))).thenReturn(responseEntity);
         mock.perform(put(apiV1+"/accountId1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(getAccountDto()))
+                        .header("userEmail", "ram@gmail.com")
                 )
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -115,8 +124,11 @@ public class AccountControllerTest {
     @Test
     public void shouldGetStatus200WhenRequestMadeToDeleteAccount() throws Exception
     {
+        ResponseEntity<UserDto> responseEntity = new ResponseEntity<>(getUserDto(), HttpStatus.OK);
+        when(userServiceConsumer.getUserDetails(any(String.class))).thenReturn(responseEntity);
         mock.perform(delete(apiV1+"/accountId1")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("userEmail", "ram@gmail.com"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

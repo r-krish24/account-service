@@ -1,6 +1,7 @@
 package com.maveric.accountservice.exception;
 
 import com.maveric.accountservice.dto.ErrorDto;
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -69,6 +70,34 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(BAD_REQUEST_CODE);
         errorDto.setMessage(exception.getMessage());
+        return errorDto;
+    }
+
+    @ExceptionHandler(FeignException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ErrorDto handleHttpFeignException(
+            FeignException ex) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setCode(SERVICE_UNAVAILABLE_CODE);
+        errorDto.setMessage(SERVICE_UNAVAILABLE_MESSAGE);
+        return errorDto;
+    }
+
+    @ExceptionHandler(UnAuthorizedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public final ErrorDto handleUnAuthorizedException(UnAuthorizedException exception) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setCode(AUTH_HEADER_ERROR_CODE);
+        errorDto.setMessage(exception.getMessage());
+        return errorDto;
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public final ErrorDto handleOtherHttpException(Exception exception) {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setCode(INTERNAL_SERVER_ERROR_CODE);
+        errorDto.setMessage(INTERNAL_SERVER_ERROR_MESSAGE);
         return errorDto;
     }
 
