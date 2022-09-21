@@ -1,12 +1,12 @@
 package com.maveric.accountservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maveric.accountservice.constants.TransactionType;
-import com.maveric.accountservice.constants.AccountType;
 import com.maveric.accountservice.dto.AccountDto;
 import com.maveric.accountservice.dto.BalanceDto;
 import com.maveric.accountservice.dto.TransactionDto;
 import com.maveric.accountservice.dto.UserDto;
+import com.maveric.accountservice.enums.AccountType;
+import com.maveric.accountservice.enums.TransactionType;
 import com.maveric.accountservice.model.Account;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

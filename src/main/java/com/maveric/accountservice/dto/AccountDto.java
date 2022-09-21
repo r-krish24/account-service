@@ -1,7 +1,7 @@
 package com.maveric.accountservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.maveric.accountservice.constants.AccountType;
+import com.maveric.accountservice.enums.AccountType;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;

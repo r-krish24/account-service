@@ -1,6 +1,6 @@
 package com.maveric.accountservice.dto;
 
-import com.maveric.accountservice.constants.TransactionType;
+import com.maveric.accountservice.enums.TransactionType;
 import lombok.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

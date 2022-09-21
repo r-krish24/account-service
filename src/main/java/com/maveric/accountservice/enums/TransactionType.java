@@ -1,4 +1,4 @@
-package com.maveric.accountservice.constants;
+package com.maveric.accountservice.enums;
 
 public enum TransactionType {
     DEBIT,CREDIT
