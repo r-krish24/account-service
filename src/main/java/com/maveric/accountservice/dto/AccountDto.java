@@ -7,7 +7,6 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +23,4 @@ public class AccountDto {
         private LocalDateTime updatedAt;
         @JsonInclude(JsonInclude.Include.NON_NULL)
         private BalanceDto balance;
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        private List<TransactionDto> transactions;
 }

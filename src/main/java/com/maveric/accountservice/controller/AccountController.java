@@ -2,7 +2,6 @@ package com.maveric.accountservice.controller;
 
 import com.maveric.accountservice.dto.AccountDto;
 import com.maveric.accountservice.dto.BalanceDto;
-import com.maveric.accountservice.dto.TransactionDto;
 import com.maveric.accountservice.dto.UserDto;
 import com.maveric.accountservice.exception.CustomerNotFoundException;
 import com.maveric.accountservice.exception.UnAuthorizedException;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.maveric.accountservice.constants.Constants.AUTH_HEADER_ERROR_MESSAGE;

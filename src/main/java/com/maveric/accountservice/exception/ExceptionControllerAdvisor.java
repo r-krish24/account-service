@@ -1,6 +1,5 @@
 package com.maveric.accountservice.exception;
 
-import com.maveric.accountservice.controller.AccountController;
 import com.maveric.accountservice.dto.ErrorDto;
 import feign.FeignException;
 import org.slf4j.Logger;
@@ -24,7 +23,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(ACCOUNT_NOT_FOUND_CODE);
         errorDto.setMessage(exception.getMessage());
-        log.error(ACCOUNT_NOT_FOUND_CODE+"->"+exception.getMessage());
+        log.error("{} {}",ACCOUNT_NOT_FOUND_CODE,exception.getMessage());
         return errorDto;
     }
 
@@ -34,7 +33,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(ACCOUNT_NOT_FOUND_CODE);
         errorDto.setMessage(exception.getMessage());
-        log.error(ACCOUNT_NOT_FOUND_CODE+"->"+exception.getMessage());
+        log.error("{}->{}",ACCOUNT_NOT_FOUND_CODE,exception.getMessage());
         return errorDto;
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -44,7 +43,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(BAD_REQUEST_CODE);
         errorDto.setMessage(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-        log.error(BAD_REQUEST_CODE+"->"+ex.getBindingResult().getAllErrors().get(0).getDefaultMessage()+"->"+ex.getMessage());
+        log.error("{} -> {} -> {}",BAD_REQUEST_CODE,ex.getBindingResult().getAllErrors().get(0).getDefaultMessage(),ex.getMessage());
         return errorDto;
     }
 
@@ -55,7 +54,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(METHOD_NOT_ALLOWED_CODE);
         errorDto.setMessage(METHOD_NOT_ALLOWED_MESSAGE);
-        log.error(METHOD_NOT_ALLOWED_CODE+"->"+METHOD_NOT_ALLOWED_MESSAGE);
+        log.error("{}-> {}",METHOD_NOT_ALLOWED_CODE,METHOD_NOT_ALLOWED_MESSAGE);
         return errorDto;
     }
 
@@ -69,7 +68,7 @@ public class ExceptionControllerAdvisor {
             errorDto.setMessage(INVALID_INPUT_TYPE);
         else
             errorDto.setMessage(HTTP_MESSAGE_NOT_READABLE_EXCEPTION_MESSAGE);
-        log.error(BAD_REQUEST_CODE+"->"+ex.getMessage());
+        log.error("{} ->{}",BAD_REQUEST_CODE,ex.getMessage());
         return errorDto;
     }
 
@@ -79,7 +78,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(BAD_REQUEST_CODE);
         errorDto.setMessage(exception.getMessage());
-        log.error(BAD_REQUEST_CODE+"->"+exception.getMessage());
+        log.error("{}-{}",BAD_REQUEST_CODE,exception.getMessage());
         return errorDto;
     }
 
@@ -90,7 +89,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(SERVICE_UNAVAILABLE_CODE);
         errorDto.setMessage(SERVICE_UNAVAILABLE_MESSAGE);
-        log.error(SERVICE_UNAVAILABLE_CODE+"->"+SERVICE_UNAVAILABLE_MESSAGE+"->"+ex.getMessage());
+        log.error("{} -> {}-> {}",SERVICE_UNAVAILABLE_CODE,SERVICE_UNAVAILABLE_MESSAGE,ex.getMessage());
         return errorDto;
     }
 
@@ -101,7 +100,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(AUTH_HEADER_ERROR_CODE);
         errorDto.setMessage(exception.getMessage());
-        log.error(AUTH_HEADER_ERROR_CODE+"->"+exception.getMessage());
+        log.error("{}--{}",AUTH_HEADER_ERROR_CODE,exception.getMessage());
         return errorDto;
     }
 
@@ -111,7 +110,7 @@ public class ExceptionControllerAdvisor {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(INTERNAL_SERVER_ERROR_CODE);
         errorDto.setMessage(INTERNAL_SERVER_ERROR_MESSAGE);
-        log.error(INTERNAL_SERVER_ERROR_CODE+"->"+INTERNAL_SERVER_ERROR_MESSAGE+"->"+exception.getMessage());
+        log.error("{} - {} - {}",INTERNAL_SERVER_ERROR_CODE,INTERNAL_SERVER_ERROR_MESSAGE,exception.getMessage());
         return errorDto;
     }
 

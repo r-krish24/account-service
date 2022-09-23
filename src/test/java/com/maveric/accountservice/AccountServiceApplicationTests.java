@@ -3,10 +3,8 @@ package com.maveric.accountservice;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maveric.accountservice.dto.AccountDto;
 import com.maveric.accountservice.dto.BalanceDto;
-import com.maveric.accountservice.dto.TransactionDto;
 import com.maveric.accountservice.dto.UserDto;
 import com.maveric.accountservice.enums.AccountType;
-import com.maveric.accountservice.enums.TransactionType;
 import com.maveric.accountservice.model.Account;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,14 +42,6 @@ public class AccountServiceApplicationTests {
 				.build();
 	}
 
-	public static TransactionDto getTransactionDto()
-	{
-		return TransactionDto.builder()
-				.accountId("1234")
-				.type(TransactionType.CREDIT)
-				.amount(2000)
-				.build();
-	}
 
 	public static BalanceDto getBalanceDto()
 	{
