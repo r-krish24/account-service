@@ -6,6 +6,7 @@ import com.maveric.accountservice.exception.PathParamsVsInputParamsMismatchExcep
 import com.maveric.accountservice.mapper.AccountMapper;
 import com.maveric.accountservice.model.Account;
 import com.maveric.accountservice.repository.AccountRepository;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,8 @@ import static com.maveric.accountservice.util.Common.getCurrentDateTime;
 
 @Service
 public class AccountServiceImpl implements AccountService{
+
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(AccountServiceImpl.class);
 
     @Autowired
     private AccountRepository repository;
@@ -45,8 +48,10 @@ public class AccountServiceImpl implements AccountService{
         Page<Account> pageResult = repository.findByCustomerId(paging,userId);
         if(pageResult.hasContent()) {
             List<Account> account = pageResult.getContent();
+            log.info("Retrieved list of accounts from DB");
             return mapper.mapToDto(account);
         } else {
+            log.info("No account details found!");
             return new ArrayList<>();
         }
     }
@@ -63,6 +68,7 @@ public class AccountServiceImpl implements AccountService{
             return mapper.map(accountResult);
         }
         else {
+            log.error("Customer not found! Cannot create Account.");
             throw new PathParamsVsInputParamsMismatchException("Customer Id-"+accountDto.getCustomerId()+" not found. Cannot create account.");
         }
     }
@@ -86,6 +92,7 @@ public class AccountServiceImpl implements AccountService{
             return mapper.map(accountUpdated);
         }
         else {
+            log.error("Customer not found! Cannot update Account.");
             throw new PathParamsVsInputParamsMismatchException("Customer Id not found! Cannot update account.");
         }
     }
@@ -94,6 +101,7 @@ public class AccountServiceImpl implements AccountService{
     public String deleteAccount(String accountId) {
         if(!repository.findById(accountId).isPresent())
         {
+            log.error("Account to be deleted is not found.");
             throw new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE+accountId);
         }
         repository.deleteById(accountId);

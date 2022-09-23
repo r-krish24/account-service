@@ -36,8 +36,20 @@ class AccountMapperImplTest {
     }
 
     @Test
+    void mapToModel_failure() {
+        List<Account> account = accountMapper.mapToModel(Arrays.asList());
+        assertEquals(0,account.size());
+    }
+
+    @Test
     void mapToDto() {
         List<AccountDto> accountDto = accountMapper.mapToDto(Arrays.asList(getAccount(),getAccount()));
         assertEquals(2,accountDto.size());
+    }
+
+    @Test
+    void mapToDto_failure() {
+        List<AccountDto> accountDto = accountMapper.mapToDto(Arrays.asList());
+        assertEquals(0,accountDto.size());
     }
 }

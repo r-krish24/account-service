@@ -1,5 +1,4 @@
 package com.maveric.accountservice.constants;
-import java.time.LocalDateTime;
 
 
 public class Constants {
@@ -19,4 +18,14 @@ public class Constants {
     public static final String INVALID_INPUT_TYPE="Type should be - 'CURRENT' or 'SAVINGS'";
 
     public static final String HTTP_MESSAGE_NOT_READABLE_EXCEPTION_MESSAGE = "Kindly re-check the inputs provided";
+
+    public static final String SERVICE_UNAVAILABLE_CODE="503";
+    public static final String SERVICE_UNAVAILABLE_MESSAGE="Services down! Kindly contact administrator.";
+
+    public static final String INTERNAL_SERVER_ERROR_CODE="500";
+
+    public static final String INTERNAL_SERVER_ERROR_MESSAGE="Server could not resolve your request.";
+
+    public static final String AUTH_HEADER_ERROR_CODE="401";
+    public static final String AUTH_HEADER_ERROR_MESSAGE="Authorization header is invalid";
 }
