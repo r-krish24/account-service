@@ -5,10 +5,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class BalanceDto {
     private String  _id;
     private String accountId;

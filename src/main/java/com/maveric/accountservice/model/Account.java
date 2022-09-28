@@ -1,6 +1,6 @@
 package com.maveric.accountservice.model;
 
-import com.maveric.accountservice.constants.AccountType;
+import com.maveric.accountservice.enums.AccountType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

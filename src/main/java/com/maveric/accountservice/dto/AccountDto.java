@@ -1,13 +1,12 @@
 package com.maveric.accountservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.maveric.accountservice.constants.AccountType;
+import com.maveric.accountservice.enums.AccountType;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +23,4 @@ public class AccountDto {
         private LocalDateTime updatedAt;
         @JsonInclude(JsonInclude.Include.NON_NULL)
         private BalanceDto balance;
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        private List<TransactionDto> transactions;
 }
