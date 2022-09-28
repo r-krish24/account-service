@@ -103,7 +103,7 @@ class AccountServiceImplTest {
 
     @Test
     void createAccount_failure() {
-        Throwable error = assertThrows(PathParamsVsInputParamsMismatchException.class,()->service.createAccount("1233",getAccountDto()));
+        Throwable error = assertThrows(PathParamsVsInputParamsMismatchException.class,()->service.createAccount("1233",getAccountDto()));  //NOSONAR
         assertEquals("Customer Id-1234 not found. Cannot create account.",error.getMessage());
     }
 
@@ -132,14 +132,14 @@ class AccountServiceImplTest {
     void updateAccountDetails_AccountIdNotFound() {
         when(repository.findById("123")).thenReturn(Optional.empty());
 
-        Throwable error = assertThrows(AccountNotFoundException.class,()->service.updateAccountDetails("1234","123",getAccountDto()));
+        Throwable error = assertThrows(AccountNotFoundException.class,()->service.updateAccountDetails("1234","123",getAccountDto()));  //NOSONAR
         assertEquals("Account not found for Id-123",error.getMessage());
     }
 
     @Test
     void updateAccountDetails_CustomerIdMismatch() {
 
-        Throwable error = assertThrows(PathParamsVsInputParamsMismatchException.class,()->service.updateAccountDetails("123","123",getAccountDto()));
+        Throwable error = assertThrows(PathParamsVsInputParamsMismatchException.class,()->service.updateAccountDetails("123","123",getAccountDto())); //NOSONAR
         assertEquals("Customer Id not found! Cannot update account.",error.getMessage());
     }
 
