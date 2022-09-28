@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AccountServiceApplication {
 
 	@Value("${frontend.uri}")
-	private String frontend_uri;
+	private String frontendUri;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AccountServiceApplication.class, args);
@@ -25,7 +25,7 @@ public class AccountServiceApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins(frontend_uri);
+				registry.addMapping("/**").allowedOrigins(frontendUri);
 			}
 		};
 	}

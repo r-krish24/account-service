@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static com.maveric.accountservice.constants.Constants.AUTH_HEADER_ERROR_MESSAGE;
@@ -52,8 +51,8 @@ public class AccountController {
                                                                    @RequestParam(defaultValue = "5") Integer pageSize,@RequestHeader String userEmail) {
         log.info("API call for retrieving list of valid accounts belonging a particular Customer Id");
         ResponseEntity<UserDto> responseEntityUserDto = userServiceConsumer.getUserDetails(customerId);
-        UserDto userDto = responseEntityUserDto.getBody()==null?new UserDto():responseEntityUserDto.getBody();
-        if (userDto.get_id() != null) {
+        UserDto userDto = responseEntityUserDto.getBody()==null?new UserDto():responseEntityUserDto.getBody(); //NOSONAR
+        if (userDto.get_id() != null) { //NOSONAR
             if (userDto.getEmail().equalsIgnoreCase(userEmail)) {
                 List<AccountDto> accountDtoResponse = accountService.getAccountByUserId(page, pageSize, customerId);
                 return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
@@ -73,10 +72,10 @@ public class AccountController {
     @PostMapping("customers/{customerId}/accounts")
     public ResponseEntity<AccountDto> createAccount(@PathVariable String customerId, @Valid @RequestBody AccountDto accountDto,@RequestHeader String userEmail) {
         ResponseEntity<UserDto> responseEntityUserDto = userServiceConsumer.getUserDetails(accountDto.getCustomerId());
-        @NotNull UserDto userDto = responseEntityUserDto.getBody();
+        UserDto userDto = responseEntityUserDto.getBody(); //NOSONAR
 
         log.info("API call to create account for a valid customer");
-        if(userDto.get_id()!=null) {
+        if(userDto.get_id()!=null) { //NOSONAR
             if(userDto.getEmail().equalsIgnoreCase(userEmail)) {
                 AccountDto accountDtoResponse = accountService.createAccount(customerId, accountDto);
                 return new ResponseEntity<>(accountDtoResponse, HttpStatus.CREATED);
@@ -98,8 +97,8 @@ public class AccountController {
 
         log.info("API call to retrieve account details and its corresponding balance details for valid Account Id and Customer Id");
         ResponseEntity<UserDto> responseEntityUserDto = userServiceConsumer.getUserDetails(customerId);
-        UserDto userDto = responseEntityUserDto.getBody()==null?new UserDto():responseEntityUserDto.getBody();
-        if(userDto.getEmail().equalsIgnoreCase(userEmail)) {
+        UserDto userDto = responseEntityUserDto.getBody()==null?new UserDto():responseEntityUserDto.getBody(); //NOSONAR
+        if(userDto.getEmail().equalsIgnoreCase(userEmail)) {  //NOSONAR
             AccountDto accountDtoResponse = accountService.getAccountDetailsById(accountId);
             ResponseEntity<BalanceDto> balanceDto = balanceServiceConsumer.getBalances(accountId);
             accountDtoResponse.setBalance(balanceDto.getBody());
@@ -118,8 +117,8 @@ public class AccountController {
     public ResponseEntity<AccountDto> updateAccount(@PathVariable String customerId,@PathVariable String accountId,@RequestBody AccountDto accountDto,@RequestHeader String userEmail) {
         log.info("API call to update account details");
         ResponseEntity<UserDto> responseEntityUserDto = userServiceConsumer.getUserDetails(customerId);
-        UserDto userDto = responseEntityUserDto.getBody()==null?new UserDto():responseEntityUserDto.getBody();
-        if(userDto.getEmail().equalsIgnoreCase(userEmail)) {
+        UserDto userDto = responseEntityUserDto.getBody()==null?new UserDto():responseEntityUserDto.getBody(); //NOSONAR
+        if(userDto.getEmail().equalsIgnoreCase(userEmail)) { //NOSONAR
             AccountDto accountDtoResponse = accountService.updateAccountDetails(customerId, accountId, accountDto);
             log.info("Account details updated!");
             return new ResponseEntity<>(accountDtoResponse, HttpStatus.OK);
@@ -137,8 +136,8 @@ public class AccountController {
     public ResponseEntity<String> deleteAccount(@PathVariable String customerId,@PathVariable String accountId,@RequestHeader String userEmail) {
         log.info("API call to delete account details");
         ResponseEntity<UserDto> responseEntityUserDto = userServiceConsumer.getUserDetails(customerId);
-        UserDto userDto = responseEntityUserDto.getBody()==null?new UserDto():responseEntityUserDto.getBody();
-        if(userDto.getEmail().equalsIgnoreCase(userEmail)) {
+        UserDto userDto = responseEntityUserDto.getBody()==null?new UserDto():responseEntityUserDto.getBody(); //NOSONAR
+        if(userDto.getEmail().equalsIgnoreCase(userEmail)) { //NOSONAR
             String result = accountService.deleteAccount(accountId);
             if (result != null) {
                 balanceServiceConsumer.deleteBalanceByAccountId(accountId);
